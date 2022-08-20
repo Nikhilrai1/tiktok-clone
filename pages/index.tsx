@@ -1,15 +1,24 @@
 import axios from 'axios'
 import type { NextPage } from 'next'
-import { Videos } from '../types'
+import NoResults from '../components/NoResults'
+import VideoCard from '../components/VideoCard'
+import { Video } from '../types'
 
 interface IProps {
-  videos: Videos[]
+  videos: Video[]
 }
 const Home  = ( {videos}: IProps) => {
   // console.log(videos)
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-
+    <div className="flex flex-col gap-10 videos h-full">
+    {videos.length ? (
+      videos.map((video: Video) => (
+        <VideoCard post={video} key={video._id} />
+      ))
+    ): (
+      <NoResults text={"No videos"}/>
+    )
+  }
     </div>
   )
 }
