@@ -6,12 +6,12 @@ import GoogleLogin from 'react-google-login';
 import Discover from './Discover';
 import SuggestedAccounts from './SuggestedAccounts';
 import Footer from './Footer';
+import useAuthStore from '../store/authStore';
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(true);
   const normalLink = 'flex items-center gap-3 hover:bg-gray-100 p-3 justify-center xl:justify-start cursor-pointer font-semibold text-[#F51997] rounded';
-
-  const [userProfile, setUserProfile] = useState(false);
+  const { userProfile } = useAuthStore();
   return (
     <div>
       <div className="flex items-center justify-center xl:hidden m-2 mt-3 cursor-pointer" onClick={() => setShowSidebar((prev) => !prev)}>
