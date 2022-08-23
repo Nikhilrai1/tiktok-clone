@@ -1,17 +1,43 @@
+import axios from 'axios'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useRef, useState } from 'react'
+import { MdOutlineCancel } from 'react-icons/md'
+import { BASE_URL } from '../../public/utils'
+import { Video } from '../../types'
 
-const Detail = () => {
-    const router = useRouter()
-    // const query:any = router.query;
+interface IProps{
+  postDetails: Video
+}
+const Detail = ({postDetails} : IProps) => {
+  const [post, setPost] = useState(postDetails);
+  const videoRef = useRef(null)
+  if(!post) return null;
   return (
-    <>
-    <div>
-        {/* {query} */}
-        detail
+  <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
+    <div className="relative flex-2 w-[1000px] lg:w-9/12 flex justify-center items-center bg-black-600">
+      <div className="absolute top-6 left-2 lg:left-6 flex gap-6 z-50">
+        <p>
+          <MdOutlineCancel className='text-white text-[35px]' />
+        </p>
+      </div>
+      <div className="relative">
+        <div className="lg:h-[100vh] h-[60vh]">
+          <video src={post.video.asset.url}>
+            
+          </video>
+        </div>
+      </div>
     </div>
-    </>
+  </div>
   )
+}
+
+export const getServerSideProps = async ({ params: { id } }: { params: { id: string } }) => {
+
+  const { data } = await axios.get(`${BASE_URL}/api/post/${id}`)
+  return {
+    props: { postDetails: data }
+  }
 }
 
 export default Detail
